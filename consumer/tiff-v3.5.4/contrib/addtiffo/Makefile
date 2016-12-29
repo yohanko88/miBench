@@ -4,8 +4,8 @@
 #
 LIBTIFF_DIR =	../../libtiff
 #
-CC	=	gcc
-CXX	=	gcc
+CC	=	arm-linux-gnueabi-gcc
+CXX	=	arm-linux-gnueabi-gcc
 CFLAGS	=	-O -I$(LIBTIFF_DIR)
 LIBS	=	$(LIBTIFF_DIR)/libtiff.a -lm
 

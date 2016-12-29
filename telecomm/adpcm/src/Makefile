@@ -5,13 +5,13 @@
 #####################################################################
 # Added by C. Lee.
 #
-# On Sun machines, gcc need to be informed whether the machines have
+# On Sun machines, arm-linux-gnueabi-gcc need to be informed whether the machines have
 # integer multipliers by specifying this option: -mv8.
 #
 # Also, on Sun machines, in order to use the SPIXTOOLS and SHADE,
 # uncomment this option: -static.
 #
-CC = gcc
+CC = arm-linux-gnueabi-gcc
 LFLAGS = -mv8
 LFLAGS = $(LFLAGS) -static
 #

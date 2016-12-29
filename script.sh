@@ -12,7 +12,7 @@ case $1 in
 	;;
 
   "make")
-  find . -name "Makefile" -exec perl -pi -e 's/(\s*)gcc/\g1arm-linux-gnueabi-gcc/g' {} \;
+  find . -name "Makefile" -exec perl -pi -e 's/(\s)gcc/$1arm-linux-gnueabi-gcc/g' {} \;
   
   for dir in automotive consumer network office security telecomm
   do

@@ -1,0 +1,281 @@
+GAS LISTING /tmp/cckdWxx6.s 			page 1
+
+
+   1              		.file	"matmul.c"
+   2              		.text
+   3              	.Ltext0:
+   4              		.section	.rodata
+   5              	.LC0:
+   6 0000 25642000 		.string	"%d "
+   7              		.text
+   8              		.globl	main
+  10              	main:
+  11              	.LFB0:
+  12              		.file 1 "matmul.c"
+   1:matmul.c      **** #include <stdio.h>
+   2:matmul.c      **** 
+   3:matmul.c      **** int main()
+   4:matmul.c      **** {
+  13              		.loc 1 4 0
+  14              		.cfi_startproc
+  15 0000 55       		pushq	%rbp
+  16              		.cfi_def_cfa_offset 16
+  17              		.cfi_offset 6, -16
+  18 0001 4889E5   		movq	%rsp, %rbp
+  19              		.cfi_def_cfa_register 6
+  20 0004 4883EC50 		subq	$80, %rsp
+   5:matmul.c      ****     int a[2][2], b[2][2], c[2][2];
+   6:matmul.c      ****     int i,j,k;
+   7:matmul.c      ****     int index = 0;
+  21              		.loc 1 7 0
+  22 0008 C745C800 		movl	$0, -56(%rbp)
+  22      000000
+   8:matmul.c      ****     int sum;
+   9:matmul.c      ****     for(i=0; i<2; i++) {
+  23              		.loc 1 9 0
+  24 000f C745BC00 		movl	$0, -68(%rbp)
+  24      000000
+  25 0016 EB33     		jmp	.L2
+  26              	.L5:
+  10:matmul.c      ****         for(j=0; j<2; j++) {
+  27              		.loc 1 10 0
+  28 0018 C745C000 		movl	$0, -64(%rbp)
+  28      000000
+  29 001f EB20     		jmp	.L3
+  30              	.L4:
+  11:matmul.c      ****             a[i][j] = ++index;
+  31              		.loc 1 11 0 discriminator 2
+  32 0021 8345C801 		addl	$1, -56(%rbp)
+  33 0025 8B45C0   		movl	-64(%rbp), %eax
+  34 0028 4898     		cltq
+  35 002a 8B55BC   		movl	-68(%rbp), %edx
+  36 002d 4863D2   		movslq	%edx, %rdx
+  37 0030 4801D2   		addq	%rdx, %rdx
+  38 0033 4801C2   		addq	%rax, %rdx
+  39 0036 8B45C8   		movl	-56(%rbp), %eax
+  40 0039 894495D0 		movl	%eax, -48(%rbp,%rdx,4)
+  10:matmul.c      ****         for(j=0; j<2; j++) {
+  41              		.loc 1 10 0 discriminator 2
+  42 003d 8345C001 		addl	$1, -64(%rbp)
+  43              	.L3:
+GAS LISTING /tmp/cckdWxx6.s 			page 2
+
+
+  10:matmul.c      ****         for(j=0; j<2; j++) {
+  44              		.loc 1 10 0 is_stmt 0 discriminator 1
+  45 0041 837DC001 		cmpl	$1, -64(%rbp)
+  46 0045 7EDA     		jle	.L4
+   9:matmul.c      ****         for(j=0; j<2; j++) {
+  47              		.loc 1 9 0 is_stmt 1
+  48 0047 8345BC01 		addl	$1, -68(%rbp)
+  49              	.L2:
+   9:matmul.c      ****         for(j=0; j<2; j++) {
+  50              		.loc 1 9 0 is_stmt 0 discriminator 1
+  51 004b 837DBC01 		cmpl	$1, -68(%rbp)
+  52 004f 7EC7     		jle	.L5
+  12:matmul.c      ****         }
+  13:matmul.c      ****     }
+  14:matmul.c      ****     
+  15:matmul.c      ****     for(i=0; i<2; i++) {
+  53              		.loc 1 15 0 is_stmt 1
+  54 0051 C745BC00 		movl	$0, -68(%rbp)
+  54      000000
+  55 0058 EB33     		jmp	.L6
+  56              	.L9:
+  16:matmul.c      ****         for(j=0; j<2; j++) {
+  57              		.loc 1 16 0
+  58 005a C745C000 		movl	$0, -64(%rbp)
+  58      000000
+  59 0061 EB20     		jmp	.L7
+  60              	.L8:
+  17:matmul.c      ****             b[i][j] = ++index;
+  61              		.loc 1 17 0 discriminator 2
+  62 0063 8345C801 		addl	$1, -56(%rbp)
+  63 0067 8B45C0   		movl	-64(%rbp), %eax
+  64 006a 4898     		cltq
+  65 006c 8B55BC   		movl	-68(%rbp), %edx
+  66 006f 4863D2   		movslq	%edx, %rdx
+  67 0072 4801D2   		addq	%rdx, %rdx
+  68 0075 4801C2   		addq	%rax, %rdx
+  69 0078 8B45C8   		movl	-56(%rbp), %eax
+  70 007b 894495E0 		movl	%eax, -32(%rbp,%rdx,4)
+  16:matmul.c      ****         for(j=0; j<2; j++) {
+  71              		.loc 1 16 0 discriminator 2
+  72 007f 8345C001 		addl	$1, -64(%rbp)
+  73              	.L7:
+  16:matmul.c      ****         for(j=0; j<2; j++) {
+  74              		.loc 1 16 0 is_stmt 0 discriminator 1
+  75 0083 837DC001 		cmpl	$1, -64(%rbp)
+  76 0087 7EDA     		jle	.L8
+  15:matmul.c      ****         for(j=0; j<2; j++) {
+  77              		.loc 1 15 0 is_stmt 1
+  78 0089 8345BC01 		addl	$1, -68(%rbp)
+  79              	.L6:
+  15:matmul.c      ****         for(j=0; j<2; j++) {
+  80              		.loc 1 15 0 is_stmt 0 discriminator 1
+  81 008d 837DBC01 		cmpl	$1, -68(%rbp)
+  82 0091 7EC7     		jle	.L9
+  18:matmul.c      ****         }
+  19:matmul.c      ****     }
+  20:matmul.c      ****     
+GAS LISTING /tmp/cckdWxx6.s 			page 3
+
+
+  21:matmul.c      ****     for(i=0; i<2; i++) {
+  83              		.loc 1 21 0 is_stmt 1
+  84 0093 C745BC00 		movl	$0, -68(%rbp)
+  84      000000
+  85 009a EB79     		jmp	.L10
+  86              	.L15:
+  22:matmul.c      ****         for(j=0; j<2; j++) {
+  87              		.loc 1 22 0
+  88 009c C745C000 		movl	$0, -64(%rbp)
+  88      000000
+  89 00a3 EB66     		jmp	.L11
+  90              	.L14:
+  23:matmul.c      ****             sum = 0;
+  91              		.loc 1 23 0
+  92 00a5 C745CC00 		movl	$0, -52(%rbp)
+  92      000000
+  24:matmul.c      ****             for(k=0; k<2; k++) {
+  93              		.loc 1 24 0
+  94 00ac C745C400 		movl	$0, -60(%rbp)
+  94      000000
+  95 00b3 EB34     		jmp	.L12
+  96              	.L13:
+  25:matmul.c      ****                 sum = sum + a[i][k] * b[k][j];
+  97              		.loc 1 25 0 discriminator 2
+  98 00b5 8B45C4   		movl	-60(%rbp), %eax
+  99 00b8 4898     		cltq
+ 100 00ba 8B55BC   		movl	-68(%rbp), %edx
+ 101 00bd 4863D2   		movslq	%edx, %rdx
+ 102 00c0 4801D2   		addq	%rdx, %rdx
+ 103 00c3 4801D0   		addq	%rdx, %rax
+ 104 00c6 8B5485D0 		movl	-48(%rbp,%rax,4), %edx
+ 105 00ca 8B45C0   		movl	-64(%rbp), %eax
+ 106 00cd 4898     		cltq
+ 107 00cf 8B4DC4   		movl	-60(%rbp), %ecx
+ 108 00d2 4863C9   		movslq	%ecx, %rcx
+ 109 00d5 4801C9   		addq	%rcx, %rcx
+ 110 00d8 4801C8   		addq	%rcx, %rax
+ 111 00db 8B4485E0 		movl	-32(%rbp,%rax,4), %eax
+ 112 00df 0FAFC2   		imull	%edx, %eax
+ 113 00e2 0145CC   		addl	%eax, -52(%rbp)
+  24:matmul.c      ****             for(k=0; k<2; k++) {
+ 114              		.loc 1 24 0 discriminator 2
+ 115 00e5 8345C401 		addl	$1, -60(%rbp)
+ 116              	.L12:
+  24:matmul.c      ****             for(k=0; k<2; k++) {
+ 117              		.loc 1 24 0 is_stmt 0 discriminator 1
+ 118 00e9 837DC401 		cmpl	$1, -60(%rbp)
+ 119 00ed 7EC6     		jle	.L13
+  26:matmul.c      ****             }
+  27:matmul.c      ****             c[i][j] = sum;
+ 120              		.loc 1 27 0 is_stmt 1
+ 121 00ef 8B45C0   		movl	-64(%rbp), %eax
+ 122 00f2 4898     		cltq
+ 123 00f4 8B55BC   		movl	-68(%rbp), %edx
+ 124 00f7 4863D2   		movslq	%edx, %rdx
+ 125 00fa 4801D2   		addq	%rdx, %rdx
+ 126 00fd 4801C2   		addq	%rax, %rdx
+GAS LISTING /tmp/cckdWxx6.s 			page 4
+
+
+ 127 0100 8B45CC   		movl	-52(%rbp), %eax
+ 128 0103 894495F0 		movl	%eax, -16(%rbp,%rdx,4)
+  22:matmul.c      ****             sum = 0;
+ 129              		.loc 1 22 0
+ 130 0107 8345C001 		addl	$1, -64(%rbp)
+ 131              	.L11:
+  22:matmul.c      ****             sum = 0;
+ 132              		.loc 1 22 0 is_stmt 0 discriminator 1
+ 133 010b 837DC001 		cmpl	$1, -64(%rbp)
+ 134 010f 7E94     		jle	.L14
+  21:matmul.c      ****         for(j=0; j<2; j++) {
+ 135              		.loc 1 21 0 is_stmt 1
+ 136 0111 8345BC01 		addl	$1, -68(%rbp)
+ 137              	.L10:
+  21:matmul.c      ****         for(j=0; j<2; j++) {
+ 138              		.loc 1 21 0 is_stmt 0 discriminator 1
+ 139 0115 837DBC01 		cmpl	$1, -68(%rbp)
+ 140 0119 7E81     		jle	.L15
+  28:matmul.c      ****         }
+  29:matmul.c      ****     }
+  30:matmul.c      ****     
+  31:matmul.c      ****     for(i=0; i<2; i++) {
+ 141              		.loc 1 31 0 is_stmt 1
+ 142 011b C745BC00 		movl	$0, -68(%rbp)
+ 142      000000
+ 143 0122 EB3D     		jmp	.L16
+ 144              	.L19:
+  32:matmul.c      ****         for(j=0; j<2; j++) {
+ 145              		.loc 1 32 0
+ 146 0124 C745C000 		movl	$0, -64(%rbp)
+ 146      000000
+ 147 012b EB2A     		jmp	.L17
+ 148              	.L18:
+  33:matmul.c      ****             printf("%d ", c[i][j]);
+ 149              		.loc 1 33 0 discriminator 2
+ 150 012d 8B45C0   		movl	-64(%rbp), %eax
+ 151 0130 4898     		cltq
+ 152 0132 8B55BC   		movl	-68(%rbp), %edx
+ 153 0135 4863D2   		movslq	%edx, %rdx
+ 154 0138 4801D2   		addq	%rdx, %rdx
+ 155 013b 4801D0   		addq	%rdx, %rax
+ 156 013e 8B4485F0 		movl	-16(%rbp,%rax,4), %eax
+ 157 0142 89C6     		movl	%eax, %esi
+ 158 0144 BF000000 		movl	$.LC0, %edi
+ 158      00
+ 159 0149 B8000000 		movl	$0, %eax
+ 159      00
+ 160 014e E8000000 		call	printf
+ 160      00
+  32:matmul.c      ****         for(j=0; j<2; j++) {
+ 161              		.loc 1 32 0 discriminator 2
+ 162 0153 8345C001 		addl	$1, -64(%rbp)
+ 163              	.L17:
+  32:matmul.c      ****         for(j=0; j<2; j++) {
+ 164              		.loc 1 32 0 is_stmt 0 discriminator 1
+ 165 0157 837DC001 		cmpl	$1, -64(%rbp)
+ 166 015b 7ED0     		jle	.L18
+GAS LISTING /tmp/cckdWxx6.s 			page 5
+
+
+  31:matmul.c      ****         for(j=0; j<2; j++) {
+ 167              		.loc 1 31 0 is_stmt 1
+ 168 015d 8345BC01 		addl	$1, -68(%rbp)
+ 169              	.L16:
+  31:matmul.c      ****         for(j=0; j<2; j++) {
+ 170              		.loc 1 31 0 is_stmt 0 discriminator 1
+ 171 0161 837DBC01 		cmpl	$1, -68(%rbp)
+ 172 0165 7EBD     		jle	.L19
+  34:matmul.c      ****         }
+  35:matmul.c      ****     }
+  36:matmul.c      **** 	printf("\n");
+ 173              		.loc 1 36 0 is_stmt 1
+ 174 0167 BF0A0000 		movl	$10, %edi
+ 174      00
+ 175 016c E8000000 		call	putchar
+ 175      00
+  37:matmul.c      ****     return 0;
+ 176              		.loc 1 37 0
+ 177 0171 B8000000 		movl	$0, %eax
+ 177      00
+  38:matmul.c      **** }...
+ 178              		.loc 1 38 0
+ 179 0176 C9       		leave
+ 180              		.cfi_def_cfa 7, 8
+ 181 0177 C3       		ret
+ 182              		.cfi_endproc
+ 183              	.LFE0:
+ 185              	.Letext0:
+GAS LISTING /tmp/cckdWxx6.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 matmul.c
+     /tmp/cckdWxx6.s:10     .text:0000000000000000 main
+
+UNDEFINED SYMBOLS
+printf
+putchar

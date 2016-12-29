@@ -11,7 +11,7 @@ ARCH = $(shell uname -m)
 
 # defaults:
 PGM = lame
-CC = gcc
+CC = arm-linux-gnueabi-gcc
 CC_OPTS =  -O
 GTK = 
 GTKLIBS = 
@@ -77,7 +77,7 @@ ifeq ($(UNAME),Linux)
    LIBTERMCAP = -lncurses
 
 
-# suggested for gcc-2.7.x
+# suggested for arm-linux-gnueabi-gcc-2.7.x
    CC_OPTS =  -O3 -fomit-frame-pointer -funroll-loops -ffast-math  -finline-functions -Wall
 #  CC_OPTS =  -O9 -fomit-frame-pointer -fno-strength-reduce -mpentiumpro -ffast-math -finline-functions -funroll-loops -Wall -malign-double -g -march=pentiumpro -mfancy-math-387 -pipe 
 
@@ -95,7 +95,7 @@ ifeq ($(UNAME),Linux)
 #   FEATURES += -DRH_SIDE_VBR         # turns side channel reduction off (VBR)
 #   FEATURES += -DRH_SIDE_CBR         # turns side channel reduction off (CBR)
 #   FEATURES += -DRH_ATH              # max noise instead of average noise
-# these options for gcc-2.95.2 to produce fast code
+# these options for arm-linux-gnueabi-gcc-2.95.2 to produce fast code
 #   CC_OPTS = $(FEATURES)\
 #	-Wall -O9 -fomit-frame-pointer -march=pentium \
 #	-finline-functions -fexpensive-optimizations \
@@ -206,7 +206,7 @@ endif
 ##########################################################################
 ifeq ($(UNAME),OS/2)
    SHELL=sh	
-   CC = gcc
+   CC = arm-linux-gnueabi-gcc
    CC_OPTS = -O3
    PGM = lame.exe
    LIBS =
@@ -230,7 +230,7 @@ endif
 
 
 # 10/99 added -D__NO_MATH_INLINES to fix a bug in *all* versions of
-# gcc 2.8+ as of 10/99.  
+# arm-linux-gnueabi-gcc 2.8+ as of 10/99.  
 
 CC_SWITCHES = -DNDEBUG -D__NO_MATH_INLINES $(CC_OPTS) $(SNDLIB) $(GTK) $(BRHIST_SWITCH)
 c_sources = \

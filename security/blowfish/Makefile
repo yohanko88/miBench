@@ -1,7 +1,7 @@
 # Targets
 # make          - twidle the options yourself :-)
 # make cc       - standard cc options
-# make gcc      - standard gcc options
+# make arm-linux-gnueabi-gcc      - standard arm-linux-gnueabi-gcc options
 # make x86-elf  - linux-elf etc
 # make x86-out  - linux-a.out, FreeBSD etc
 # make x86-solaris

@@ -157,7 +157,7 @@ amix-68k-gcc:
 	CFLAGS="$(RSAINCDIR) -O2 -DHIGHFIRST -DUNIX \
 	-DPORTABLE -DIDEA32"
 
-# Atari-version with gcc 2.5.8
+# Atari-version with arm-linux-gnueabi-gcc 2.5.8
 atari:
 	$(MAKE) all CC=gcc LD=gcc PROJ=pgp.ttp \
 	CFLAGS="$(RSAINCDIR) $(USEMPILIB) -O2 -DATARI -DHIGHFIRST -DPORTABLE \
@@ -192,8 +192,8 @@ netbsd_68k:
 	$(MAKE) all CC=gcc LD=gcc OBJS_EXT="mc68020.o" \
 	CFLAGS="$(RSAINCDIR) -O -DUNIX -DHIGHFIRST -DIDEA32 -DMAX_NAMELEN=255"
 
-# Sun 3 with gcc
-# change -traditional-cpp to -traditional for gcc < 2.0
+# Sun 3 with arm-linux-gnueabi-gcc
+# change -traditional-cpp to -traditional for arm-linux-gnueabi-gcc < 2.0
 sun3gcc:
 	$(MAKE) all CC=gcc LD=gcc OBJS_EXT=memmove.o \
 	CFLAGS="$(RSAINCDIR) -O -traditional-cpp -DUNIX -DHIGHFIRST \
@@ -209,9 +209,9 @@ sun3cc: unproto/cpp
 	CFLAGS="$(RSAINCDIR) -Qpath unproto -O -DUNIX -DHIGHFIRST \
 	-DIDEA32 -DPORTABLE"
 
-# Sun 4 SPARC with gcc (tested with gcc 1.39 and newer, sparc.s can not be
-# used with older versions of gcc)
-# change -traditional-cpp to -traditional for gcc < 2.0
+# Sun 4 SPARC with arm-linux-gnueabi-gcc (tested with arm-linux-gnueabi-gcc 1.39 and newer, sparc.s can not be
+# used with older versions of arm-linux-gnueabi-gcc)
+# change -traditional-cpp to -traditional for arm-linux-gnueabi-gcc < 2.0
 sun4gcc:
 	$(MAKE) all CC=gcc LD=gcc OBJS_EXT="sparc.o memmove.o" \
 	CFLAGS="$(RSAINCDIR) -O -traditional-cpp -DUNIX -DHIGHFIRST -DIDEA32"
@@ -227,7 +227,7 @@ sun4acc:
 	$(MAKE) all CC=acc LD=acc CPP="cc -E" OBJS_EXT="sparc.o memmove.o" \
 	CFLAGS="-w $(RSAINCDIR) -xO4 -DUNIX -DHIGHFIRST -DIDEA32" \
  
-# Sun 4 running Sunos5 (Solaris) using gcc
+# Sun 4 running Sunos5 (Solaris) using arm-linux-gnueabi-gcc
 sun4sunos5gcc:
 	$(MAKE) all CC=gcc LD=gcc OBJS_EXT=sparc.o \
 	CFLAGS="$(RSAINCDIR) -O -traditional-cpp -DSOLARIS -DUNIX -DHIGHFIRST \
@@ -255,8 +255,8 @@ solx86gcc:
 	CFLAGS="$(RSAINCDIR) -O -traditional-cpp -DSOLARIS -DUNIX -DIDEA32 \
         -DPORTABLE"
 
-# Sony newsos v3 for m68k, with gcc
-# change -traditional-cpp to -traditional for gcc < 2.0
+# Sony newsos v3 for m68k, with arm-linux-gnueabi-gcc
+# change -traditional-cpp to -traditional for arm-linux-gnueabi-gcc < 2.0
 newsgcc:
 	$(MAKE) all CC=gcc LD=gcc \
 	CFLAGS="$(RSAINCDIR) -O -I. -traditional-cpp -DNOTERMIO -D_BSD \
@@ -289,13 +289,13 @@ sysv_386:
 	$(MAKE) all CPP="/lib/cpp -DSYSV" OBJS_EXT="_80386.o _zmatch.o" \
 	CFLAGS="$(RSAINCDIR) -O -DUNIX -DIDEA32 -DUSE_NBIO -DASM"
 
-# gcc tested on ESIX 4.0.3a with gcc 2.5.8
+# arm-linux-gnueabi-gcc tested on ESIX 4.0.3a with arm-linux-gnueabi-gcc 2.5.8
 sysv_386_gcc:
 	$(MAKE) all CC=gcc LD=gcc CPP="/lib/cpp -DSYSV" \
 	OBJS_EXT="_80386.o _zmatch.o" \
 	CFLAGS="$(RSAINCDIR) -O -DUNIX -DIDEA32 -DUSE_NBIO -DASM"
 
-# Interactive Unix SVR3/386 version 3.2 with gcc
+# Interactive Unix SVR3/386 version 3.2 with arm-linux-gnueabi-gcc
 isc:
 	$(MAKE) all CC=gcc LD=gcc LDFLAGS="-lcposix -lrpc" OBJS_EXT=memmove.o \
 	CFLAGS="$(RSAINCDIR) -O -DUNIX -DIDEA32 -DUSE_NBIO -DPORTABLE \
@@ -339,7 +339,7 @@ sinix:
 	$(MAKE) all CPP=/lib/cpp \
 	CFLAGS="$(RSAINCDIR) -O -DUNIX -DPORTABLE -DUSE_NBIO -DHIGHFIRST"
 
-# Data General Unix using gcc
+# Data General Unix using arm-linux-gnueabi-gcc
 dgux:
 	$(MAKE) all CPP=/lib/cpp CC=gcc LD=gcc\
 	CFLAGS="$(RSAINCDIR) -O -DUNIX -DPORTABLE -DUSE_NBIO  \
@@ -401,7 +401,7 @@ hpux9-pa-ansi:
 	-DUNIX -DPORTABLE -DUSE_SELECT -DIDEA32 -DMERRITT"
 
 
-# HP series 700 pa-risc running HP/UX with gcc
+# HP series 700 pa-risc running HP/UX with arm-linux-gnueabi-gcc
 hpux-pa-gcc:
 	$(MAKE) all CC=gcc LD=gcc \
 	CFLAGS="$(RSAINCDIR) -O2 -D_HPUX_SOURCE -DHIGHFIRST -DUNIX \
@@ -419,7 +419,7 @@ hpux-68k-ansi:
 	CFLAGS="$(RSAINCDIR) -Aa +O2 -D_HPUX_SOURCE -DHIGHFIRST -DUNIX \
 	-DPORTABLE -DUSE_SELECT -DIDEA32"
 
-# HP series 300 mc68k running HP/UX with gcc
+# HP series 300 mc68k running HP/UX with arm-linux-gnueabi-gcc
 hpux-68k-gcc:
 	$(MAKE) all CC=gcc LD=gcc \
 	CFLAGS="$(RSAINCDIR) -O2 -D_HPUX_SOURCE -DHIGHFIRST -DUNIX \
@@ -431,13 +431,13 @@ hpux-68k: unproto/cpp
 	CFLAGS="-tp,./unproto/cpp $(RSAINCDIR) -DHIGHFIRST \
 	-DUNIX -DPORTABLE -DUSE_SELECT -DIDEA32"
 
-# VAX Ultrix 4.2 BSD rev. 96, system #3 with gcc
+# VAX Ultrix 4.2 BSD rev. 96, system #3 with arm-linux-gnueabi-gcc
 vax-ultrix:
 	$(MAKE) all CC=gcc LD=gcc \
 	CFLAGS="$(RSAINCDIR) -O -DUNIX -DPORTABLE -DUSE_SELECT \
 	-DSIG_IGN=1 -DSIG_DFL=0"
 
-# DEC Ultrix 4.2 BSD with gcc with MIPSco processors
+# DEC Ultrix 4.2 BSD with arm-linux-gnueabi-gcc with MIPSco processors
 #
 # To use dec's cc on mips you should
 # uncomment the next two lines because you can't compile r3000.c 
@@ -520,19 +520,19 @@ apollo:
 	CFLAGS="$(RSAINCDIR) -O -I. -DHIGHFIRST -DBSD -DUNIX -DPORTABLE \
 	-DUSE_SELECT"
 
-#  Apollo running DomainOS Release 10.4 (bsd4.3) and gcc 2.6.0
+#  Apollo running DomainOS Release 10.4 (bsd4.3) and arm-linux-gnueabi-gcc 2.6.0
 apollo-gcc:
 	$(MAKE) all CC=gcc LD=gcc \
 	CFLAGS="$(RSAINCDIR) -O -I. -DHIGHFIRST -DBSD -DUNIX -DPORTABLE \
 	-DUSE_SELECT"
 
-# RT running bsd with gcc
+# RT running bsd with arm-linux-gnueabi-gcc
 rt_aos4:
 	$(MAKE) all CC=gcc LD=gcc \
 	CFLAGS="$(RSAINCDIR) -O -DUNIX -D_BSD -DMAX_NAMELEN=255 -DPORTABLE \
 	-DHIGHFIRST -DNOTERMIO -I."
 
-# Vax running bsd with gcc
+# Vax running bsd with arm-linux-gnueabi-gcc
 vax_bsd43:
 	$(MAKE) all CC=gcc LD=gcc \
 	CFLAGS="$(RSAINCDIR) -O -I. -DUNIX -D_BSD -DMAX_NAMELEN=255 \
@@ -557,13 +557,13 @@ aux-gcc:
 	CFLAGS="$(RSAINCDIR) -O2 -DSVR2 -DHIGHFIRST -DUNIX -DPORTABLE \
 	-DUSE_SELECT -DUPTON"
 
-# Novell UnixWare 2.0 with gcc
+# Novell UnixWare 2.0 with arm-linux-gnueabi-gcc
 unixware:
 	$(MAKE) all CC=gcc LD=gcc LDFLAGS="" \
 	CFLAGS="$(RSAINCDIR) -O2 -m486 -DUNIX -DIDEA32 -DUSE_NBIO -DPORTABLE"
 
 # Optimized version with 80386.S for OS/2 2.x.
-# Requires emx 0.8h (i.e. gcc 2.5.7 or later) and GNU make 3.71 for OS/2
+# Requires emx 0.8h (i.e. arm-linux-gnueabi-gcc 2.5.7 or later) and GNU make 3.71 for OS/2
 os2:
 	$(MAKE) all PROJ=pgp.exe RM=del OBJS_EXT="_80386.o _zmatch.o" \
 	CC="gcc -Zomf" CFLAGS="$(RSAINCDIR) -O -DOS2 -DASM -DIDEA32" \

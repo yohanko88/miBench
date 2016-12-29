@@ -20,7 +20,7 @@ static int CDECL bit_shifter(long int x);
 
 int main(int argc, char *argv[])
 {
-  clock_t start, stop;
+  struct timeval start, stop;
   double ct, cmin = DBL_MAX, cmax = 0;
   int i, cminix, cmaxix;
   long j, n, seed;
@@ -54,13 +54,14 @@ int main(int argc, char *argv[])
   puts("Bit counter algorithm benchmark\n");
   
   for (i = 0; i < FUNCS; i++) {
-    start = clock();
+    gettimeofday(&start, NULL);
     
     for (j = n = 0, seed = rand(); j < iterations; j++, seed += 13)
 	 n += pBitCntFunc[i](seed);
     
-    stop = clock();
-    ct = (stop - start) / (double)CLOCKS_PER_SEC;
+    gettimeofday(&stop, NULL);
+    //ct = (stop - start) / (double)CLOCKS_PER_SEC;
+	ct = (double)(stop.tv_sec)+(double)(stop.tv_usec)/1000000.0-(double)(start.tv_sec)-(double)(start.tv_usec)/1000000.0;
     if (ct < cmin) {
 	 cmin = ct;
 	 cminix = i;

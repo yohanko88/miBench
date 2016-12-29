@@ -301,8 +301,8 @@ PDF_COMPRESSION	= 0
 ZLIB		=
 ZLIBPATH	=
 
-CC	= gcc
-LD	= gcc -static
+CC	= gcc44 -static
+LD	= gcc44 -static
 
 RCOPY	= cp -r
 

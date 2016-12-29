@@ -32,7 +32,7 @@ SASR	= -DSASR
 # CC		= /usr/lang/acc
 # CCFLAGS 	= -c -O
 
-CC		= gcc -ansi -pedantic -static
+CC		= arm-linux-gnueabi-gcc -ansi -pedantic -static
 # ARM gcc doesn't like the -O1 here...
 #CCFLAGS 	= -c -O1 -DSTUPID_COMPILER -DNeedFunctionPrototypes=1
 CCFLAGS 	= -c -O3 -DSTUPID_COMPILER -DNeedFunctionPrototypes=1
@@ -135,8 +135,8 @@ LFLAGS	= $(LDFLAGS) $(LDINC)
 
 LIBGSM	= $(LIB)/libgsm.a
 
-TOAST	= $(BIN)/toast
-UNTOAST	= $(BIN)/untoast
+TOAST	= $(BIN)/toast_ARM
+UNTOAST	= $(BIN)/untoast_ARM
 TCAT	= $(BIN)/tcat
 
 # Headers

@@ -1,0 +1,1044 @@
+ARM GAS  pbmsrch_small.s 			page 1
+
+
+   1              		.arch armv5t
+   2              		.fpu softvfp
+   3              		.eabi_attribute 20, 1	@ Tag_ABI_FP_denormal
+   4              		.eabi_attribute 21, 1	@ Tag_ABI_FP_exceptions
+   5              		.eabi_attribute 23, 3	@ Tag_ABI_FP_number_model
+   6              		.eabi_attribute 24, 1	@ Tag_ABI_align8_needed
+   7              		.eabi_attribute 25, 1	@ Tag_ABI_align8_preserved
+   8              		.eabi_attribute 26, 2	@ Tag_ABI_enum_size
+   9              		.eabi_attribute 30, 2	@ Tag_ABI_optimization_goals
+  10              		.eabi_attribute 34, 0	@ Tag_CPU_unaligned_access
+  11              		.eabi_attribute 18, 4	@ Tag_ABI_PCS_wchar_t
+  12              		.file	"pbmsrch_small.c"
+  13              	@ GNU C (Ubuntu/Linaro 4.7.3-12ubuntu1) version 4.7.3 (arm-linux-gnueabi)
+  14              	@	compiled by GNU C version 4.8.2, GMP version 5.1.3, MPFR version 3.1.2-p3, MPC version 1.0.1
+  15              	@ GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+  16              	@ options passed:  -imultilib sf -imultiarch arm-linux-gnueabi
+  17              	@ pbmsrch_small.c -march=armv5t -mfloat-abi=soft -mtls-dialect=gnu -O3
+  18              	@ -fverbose-asm -fstack-protector
+  19              	@ options enabled:  -fauto-inc-dec -fbranch-count-reg -fcaller-saves
+  20              	@ -fcombine-stack-adjustments -fcommon -fcompare-elim -fcprop-registers
+  21              	@ -fcrossjumping -fcse-follow-jumps -fdebug-types-section -fdefer-pop
+  22              	@ -fdelete-null-pointer-checks -fdevirtualize -fdwarf2-cfi-asm
+  23              	@ -fearly-inlining -feliminate-unused-debug-types -fexpensive-optimizations
+  24              	@ -fforward-propagate -ffunction-cse -fgcse -fgcse-after-reload -fgcse-lm
+  25              	@ -fgnu-runtime -fguess-branch-probability -fident -fif-conversion
+  26              	@ -fif-conversion2 -findirect-inlining -finline -finline-atomics
+  27              	@ -finline-functions -finline-functions-called-once
+  28              	@ -finline-small-functions -fipa-cp -fipa-cp-clone -fipa-profile
+  29              	@ -fipa-pure-const -fipa-reference -fipa-sra -fira-share-save-slots
+  30              	@ -fira-share-spill-slots -fivopts -fkeep-static-consts
+  31              	@ -fleading-underscore -fmath-errno -fmerge-constants -fmerge-debug-strings
+  32              	@ -fmove-loop-invariants -fomit-frame-pointer -foptimize-register-move
+  33              	@ -foptimize-sibling-calls -foptimize-strlen -fpartial-inlining -fpeephole
+  34              	@ -fpeephole2 -fpredictive-commoning -fprefetch-loop-arrays
+  35              	@ -freg-struct-return -fregmove -freorder-blocks -freorder-functions
+  36              	@ -frerun-cse-after-loop -fsched-critical-path-heuristic
+  37              	@ -fsched-dep-count-heuristic -fsched-group-heuristic -fsched-interblock
+  38              	@ -fsched-last-insn-heuristic -fsched-pressure -fsched-rank-heuristic
+  39              	@ -fsched-spec -fsched-spec-insn-heuristic -fsched-stalled-insns-dep
+  40              	@ -fschedule-insns -fschedule-insns2 -fsection-anchors -fshow-column
+  41              	@ -fshrink-wrap -fsigned-zeros -fsplit-ivs-in-unroller -fsplit-wide-types
+  42              	@ -fstack-protector -fstrict-aliasing -fstrict-overflow
+  43              	@ -fstrict-volatile-bitfields -fthread-jumps -ftoplevel-reorder
+  44              	@ -ftrapping-math -ftree-bit-ccp -ftree-builtin-call-dce -ftree-ccp
+  45              	@ -ftree-ch -ftree-coalesce-vars -ftree-copy-prop -ftree-copyrename
+  46              	@ -ftree-cselim -ftree-dce -ftree-dominator-opts -ftree-dse -ftree-forwprop
+  47              	@ -ftree-fre -ftree-loop-distribute-patterns -ftree-loop-if-convert
+  48              	@ -ftree-loop-im -ftree-loop-ivcanon -ftree-loop-optimize
+  49              	@ -ftree-parallelize-loops= -ftree-partial-pre -ftree-phiprop -ftree-pre
+  50              	@ -ftree-pta -ftree-reassoc -ftree-scev-cprop -ftree-sink
+  51              	@ -ftree-slp-vectorize -ftree-sra -ftree-switch-conversion
+  52              	@ -ftree-tail-merge -ftree-ter -ftree-vect-loop-version -ftree-vectorize
+  53              	@ -ftree-vrp -funit-at-a-time -funswitch-loops -fverbose-asm
+  54              	@ -fzero-initialized-in-bss -marm -mglibc -mlittle-endian -msched-prolog
+  55              	@ -mvectorize-with-neon-quad
+  56              	
+  57              		.text
+ARM GAS  pbmsrch_small.s 			page 2
+
+
+  58              		.align	2
+  59              		.global	init_search
+  61              	init_search:
+  62              		@ args = 0, pretend = 0, frame = 0
+  63              		@ frame_needed = 0, uses_anonymous_args = 0
+  64 0000 38402DE9 		stmfd	sp!, {r3, r4, r5, lr}	@,
+  65 0004 0040A0E1 		mov	r4, r0	@ string, string
+  66 0008 FEFFFFEB 		bl	strlen	@
+  67 000c 48309FE5 		ldr	r3, .L10	@ tmp213,
+  68 0010 03C0A0E1 		mov	ip, r3	@ tmp226, tmp213
+  69 0014 000083E5 		str	r0, [r3, #0]	@ len.4, len
+  70 0018 012B83E2 		add	r2, r3, #1024	@ D.5452, tmp226,
+  71              	.L2:
+  72 001c 0400A3E5 		str	r0, [r3, #4]!	@ len.4, MEM[base: D.5450_36, offset: 0B]
+  73 0020 020053E1 		cmp	r3, r2	@ ivtmp.40, D.5452
+  74 0024 FCFFFF1A 		bne	.L2	@,
+  75 0028 000050E3 		cmp	r0, #0	@ len.4,
+  76 002c 01504012 		subne	r5, r0, #1	@ pretmp.18, len.4,
+  77 0030 0030A013 		movne	r3, #0	@ i,
+  78 0034 0600000A 		beq	.L5	@,
+  79              	.L4:
+  80 0038 0320D4E7 		ldrb	r2, [r4, r3]	@ zero_extendqisi2	@ MEM[base: string_3(D), index: i_17, offset: 0B], MEM[base: 
+  81 003c 051063E0 		rsb	r1, r3, r5	@ tmp225, i, pretmp.18
+  82 0040 013083E2 		add	r3, r3, #1	@ i, i,
+  83 0044 02218CE0 		add	r2, ip, r2, asl #2	@, tmp223, tmp226, MEM[base: string_3(D), index: i_17, offset: 0B],
+  84 0048 000053E1 		cmp	r3, r0	@ i, len.4
+  85 004c 041082E5 		str	r1, [r2, #4]	@ tmp225, table
+  86 0050 F8FFFF1A 		bne	.L4	@,
+  87              	.L5:
+  88 0054 04448CE5 		str	r4, [ip, #1028]	@ string, findme
+  89 0058 3880BDE8 		ldmfd	sp!, {r3, r4, r5, pc}	@
+  90              	.L11:
+  91              		.align	2
+  92              	.L10:
+  93 005c 00000000 		.word	.LANCHOR0
+  95              		.align	2
+  96              		.global	strsearch
+  98              	strsearch:
+  99              		@ args = 0, pretend = 0, frame = 0
+ 100              		@ frame_needed = 0, uses_anonymous_args = 0
+ 101 0060 F0472DE9 		stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}	@,
+ 102 0064 0070A0E1 		mov	r7, r0	@ string, string
+ 103 0068 FEFFFFEB 		bl	strlen	@
+ 104 006c 8C809FE5 		ldr	r8, .L29	@ tmp206,
+ 105 0070 0060A0E1 		mov	r6, r0	@ limit,
+ 106 0074 009098E5 		ldr	r9, [r8, #0]	@ len.2, len
+ 107 0078 014049E2 		sub	r4, r9, #1	@ pos, len.2,
+ 108 007c 000054E1 		cmp	r4, r0	@ pos, limit
+ 109 0080 1B00002A 		bcs	.L22	@,
+ 110 0084 040050E1 		cmp	r0, r4	@ limit, pos
+ 111 0088 04A498E5 		ldr	sl, [r8, #1028]	@ findme.3, findme
+ 112 008c 0700008A 		bhi	.L28	@,
+ 113              	.L15:
+ 114 0090 000055E3 		cmp	r5, #0	@ shift,
+ 115 0094 0A00000A 		beq	.L20	@,
+ 116 0098 040056E1 		cmp	r6, r4	@ limit, pos
+ 117 009c 0300008A 		bhi	.L28	@,
+ARM GAS  pbmsrch_small.s 			page 3
+
+
+ 118 00a0 130000EA 		b	.L22	@
+ 119              	.L25:
+ 120 00a4 054084E0 		add	r4, r4, r5	@ pos, pos, shift
+ 121 00a8 040056E1 		cmp	r6, r4	@ limit, pos
+ 122 00ac F7FFFF9A 		bls	.L15	@,
+ 123              	.L28:
+ 124 00b0 0430D7E7 		ldrb	r3, [r7, r4]	@ zero_extendqisi2	@ *D.5358_33,* pos
+ 125 00b4 033188E0 		add	r3, r8, r3, asl #2	@, tmp203, tmp206, *D.5358_33,
+ 126 00b8 045093E5 		ldr	r5, [r3, #4]	@ shift, table
+ 127 00bc 000055E3 		cmp	r5, #0	@ shift,
+ 128 00c0 F7FFFF1A 		bne	.L25	@,
+ 129              	.L20:
+ 130 00c4 015069E2 		rsb	r5, r9, #1	@ tmp196, len.2,
+ 131 00c8 045085E0 		add	r5, r5, r4	@ tmp197, tmp196, pos
+ 132 00cc 055087E0 		add	r5, r7, r5	@ here, string, tmp197
+ 133 00d0 0510A0E1 		mov	r1, r5	@, here
+ 134 00d4 0A00A0E1 		mov	r0, sl	@, findme.3
+ 135 00d8 0920A0E1 		mov	r2, r9	@, len.2
+ 136 00dc FEFFFFEB 		bl	strncmp	@
+ 137 00e0 000050E3 		cmp	r0, #0	@,
+ 138 00e4 0300000A 		beq	.L13	@,
+ 139 00e8 014084E2 		add	r4, r4, #1	@ pos, pos,
+ 140 00ec 040056E1 		cmp	r6, r4	@ limit, pos
+ 141 00f0 EEFFFF8A 		bhi	.L28	@,
+ 142              	.L22:
+ 143 00f4 0050A0E3 		mov	r5, #0	@ here,
+ 144              	.L13:
+ 145 00f8 0500A0E1 		mov	r0, r5	@, here
+ 146 00fc F087BDE8 		ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}	@
+ 147              	.L30:
+ 148              		.align	2
+ 149              	.L29:
+ 150 0100 00000000 		.word	.LANCHOR0
+ 152              		.section	.text.startup,"ax",%progbits
+ 153              		.align	2
+ 154              		.global	main
+ 156              	main:
+ 157              		@ args = 0, pretend = 0, frame = 480
+ 158              		@ frame_needed = 0, uses_anonymous_args = 0
+ 159 0000 F04F2DE9 		stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}	@,
+ 160 0004 7BDF4DE2 		sub	sp, sp, #492	@,,
+ 161 0008 CC119FE5 		ldr	r1, .L60	@,
+ 162 000c E820A0E3 		mov	r2, #232	@,
+ 163 0010 010C8DE2 		add	r0, sp, #256	@,,
+ 164 0014 FEFFFFEB 		bl	memcpy	@
+ 165 0018 1C008DE2 		add	r0, sp, #28	@,,
+ 166 001c BC119FE5 		ldr	r1, .L60+4	@,
+ 167 0020 E420A0E3 		mov	r2, #228	@,
+ 168 0024 FEFFFFEB 		bl	memcpy	@
+ 169 0028 00919DE5 		ldr	r9, [sp, #256]	@ D.5340, find_strings
+ 170 002c 000059E3 		cmp	r9, #0	@ D.5340,
+ 171 0030 5000000A 		beq	.L58	@,
+ 172 0034 A8219FE5 		ldr	r2, .L60+8	@,
+ 173 0038 013C8DE2 		add	r3, sp, #256	@,,
+ 174 003c 0C208DE5 		str	r2, [sp, #12]	@, %sfp
+ 175 0040 0250A0E1 		mov	r5, r2	@ tmp226,
+ 176 0044 01BB82E2 		add	fp, r2, #1024	@ D.5568,,
+ARM GAS  pbmsrch_small.s 			page 4
+
+
+ 177 0048 0020A0E3 		mov	r2, #0	@,
+ 178 004c 14308DE5 		str	r3, [sp, #20]	@, %sfp
+ 179 0050 10208DE5 		str	r2, [sp, #16]	@, %sfp
+ 180              	.L46:
+ 181 0054 0900A0E1 		mov	r0, r9	@, D.5340
+ 182 0058 FEFFFFEB 		bl	strlen	@
+ 183 005c 0C309DE5 		ldr	r3, [sp, #12]	@, %sfp
+ 184 0060 7C219FE5 		ldr	r2, .L60+8	@,
+ 185 0064 00A0A0E1 		mov	sl, r0	@ len.4,
+ 186 0068 000083E5 		str	r0, [r3, #0]	@ len.4, len
+ 187 006c 0C208DE5 		str	r2, [sp, #12]	@, %sfp
+ 188              	.L33:
+ 189 0070 04A0A2E5 		str	sl, [r2, #4]!	@ len.4, MEM[base: D.5566_72, offset: 0B]
+ 190 0074 0B0052E1 		cmp	r2, fp	@ ivtmp.109, D.5568
+ 191 0078 FCFFFF1A 		bne	.L33	@,
+ 192 007c 00005AE3 		cmp	sl, #0	@ len.4,
+ 193 0080 5000000A 		beq	.L34	@,
+ 194 0084 01404AE2 		sub	r4, sl, #1	@ pos, len.4,
+ 195 0088 0020A0E3 		mov	r2, #0	@ i,
+ 196              	.L35:
+ 197 008c 0230D9E7 		ldrb	r3, [r9, r2]	@ zero_extendqisi2	@ MEM[base: D.5340_71, index: i_99, offset: 0B], MEM[base: D.
+ 198 0090 041062E0 		rsb	r1, r2, r4	@ tmp192, i, pos
+ 199 0094 012082E2 		add	r2, r2, #1	@ i, i,
+ 200 0098 033185E0 		add	r3, r5, r3, asl #2	@, tmp190, tmp226, MEM[base: D.5340_71, index: i_99, offset: 0B],
+ 201 009c 0A0052E1 		cmp	r2, sl	@ i, len.4
+ 202 00a0 041083E5 		str	r1, [r3, #4]	@ tmp192, table
+ 203 00a4 38119FE5 		ldr	r1, .L60+8	@ tmp186,
+ 204 00a8 F7FFFF1A 		bne	.L35	@,
+ 205 00ac 10309DE5 		ldr	r3, [sp, #16]	@, %sfp
+ 206 00b0 1C208DE2 		add	r2, sp, #28	@,,
+ 207 00b4 036092E7 		ldr	r6, [r2, r3]	@ D.5341, MEM[symbol: search_strings, index: ivtmp.123_42, offset: 0B]
+ 208 00b8 049481E5 		str	r9, [r1, #1028]	@ D.5340, findme
+ 209 00bc 0600A0E1 		mov	r0, r6	@, D.5341
+ 210 00c0 FEFFFFEB 		bl	strlen	@
+ 211 00c4 040050E1 		cmp	r0, r4	@ limit, pos
+ 212 00c8 01306A82 		rsbhi	r3, sl, #1	@, len.4,
+ 213 00cc 0070A0E1 		mov	r7, r0	@ limit,
+ 214 00d0 08308D85 		strhi	r3, [sp, #8]	@, %sfp
+ 215 00d4 0080A081 		movhi	r8, r0	@ limit, limit
+ 216 00d8 0300008A 		bhi	.L51	@,
+ 217 00dc 130000EA 		b	.L37	@
+ 218              	.L52:
+ 219 00e0 034084E0 		add	r4, r4, r3	@ pos, pos, shift
+ 220 00e4 040058E1 		cmp	r8, r4	@ limit, pos
+ 221 00e8 2500009A 		bls	.L38	@,
+ 222              	.L51:
+ 223 00ec 0430D6E7 		ldrb	r3, [r6, r4]	@ zero_extendqisi2	@ *D.5520_79,* pos
+ 224 00f0 033185E0 		add	r3, r5, r3, asl #2	@, tmp209, tmp226, *D.5520_79,
+ 225 00f4 043093E5 		ldr	r3, [r3, #4]	@ shift, table
+ 226 00f8 000053E3 		cmp	r3, #0	@ shift,
+ 227 00fc F7FFFF1A 		bne	.L52	@,
+ 228              	.L48:
+ 229 0100 08209DE5 		ldr	r2, [sp, #8]	@, %sfp
+ 230 0104 0900A0E1 		mov	r0, r9	@, D.5340
+ 231 0108 043082E0 		add	r3, r2, r4	@ tmp203,, pos
+ 232 010c 037086E0 		add	r7, r6, r3	@ here, D.5341, tmp203
+ 233 0110 0710A0E1 		mov	r1, r7	@, here
+ARM GAS  pbmsrch_small.s 			page 5
+
+
+ 234 0114 0A20A0E1 		mov	r2, sl	@, len.4
+ 235 0118 FEFFFFEB 		bl	strncmp	@
+ 236 011c 000050E3 		cmp	r0, #0	@,
+ 237 0120 1A00000A 		beq	.L42	@,
+ 238 0124 014084E2 		add	r4, r4, #1	@ pos, pos,
+ 239              	.L41:
+ 240 0128 040058E1 		cmp	r8, r4	@ limit, pos
+ 241 012c EEFFFF8A 		bhi	.L51	@,
+ 242              	.L37:
+ 243 0130 00608DE5 		str	r6, [sp, #0]	@ D.5341,
+ 244 0134 0920A0E1 		mov	r2, r9	@, D.5340
+ 245 0138 0100A0E3 		mov	r0, #1	@,
+ 246 013c A4109FE5 		ldr	r1, .L60+12	@,
+ 247 0140 A4309FE5 		ldr	r3, .L60+16	@,
+ 248 0144 FEFFFFEB 		bl	__printf_chk	@
+ 249              	.L49:
+ 250 0148 A0209FE5 		ldr	r2, .L60+20	@,
+ 251 014c 0A00A0E3 		mov	r0, #10	@,
+ 252 0150 001092E5 		ldr	r1, [r2, #0]	@, stdout
+ 253 0154 FEFFFFEB 		bl	_IO_putc	@
+ 254 0158 14309DE5 		ldr	r3, [sp, #20]	@, %sfp
+ 255 015c 10209DE5 		ldr	r2, [sp, #16]	@, %sfp
+ 256 0160 0490B3E5 		ldr	r9, [r3, #4]!	@ D.5340, MEM[base: D.5582_102, offset: 4B]
+ 257 0164 042082E2 		add	r2, r2, #4	@,,
+ 258 0168 000059E3 		cmp	r9, #0	@ D.5340,
+ 259 016c 14308DE5 		str	r3, [sp, #20]	@, %sfp
+ 260 0170 10208DE5 		str	r2, [sp, #16]	@, %sfp
+ 261 0174 B6FFFF1A 		bne	.L46	@,
+ 262              	.L58:
+ 263 0178 0000A0E3 		mov	r0, #0	@,
+ 264 017c 7BDF8DE2 		add	sp, sp, #492	@,,
+ 265 0180 F08FBDE8 		ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 266              	.L38:
+ 267 0184 000053E3 		cmp	r3, #0	@ shift,
+ 268 0188 E6FFFF1A 		bne	.L41	@,
+ 269 018c DBFFFFEA 		b	.L48	@
+ 270              	.L42:
+ 271 0190 000057E3 		cmp	r7, #0	@ here,
+ 272 0194 0780A0E1 		mov	r8, r7	@ here, here
+ 273 0198 E4FFFF0A 		beq	.L37	@,
+ 274 019c 0920A0E1 		mov	r2, r9	@, D.5340
+ 275 01a0 00608DE5 		str	r6, [sp, #0]	@ D.5341,
+ 276 01a4 3C109FE5 		ldr	r1, .L60+12	@,
+ 277 01a8 44309FE5 		ldr	r3, .L60+24	@,
+ 278 01ac 0100A0E3 		mov	r0, #1	@,
+ 279 01b0 FEFFFFEB 		bl	__printf_chk	@
+ 280 01b4 0720A0E1 		mov	r2, r7	@, here
+ 281 01b8 38109FE5 		ldr	r1, .L60+28	@,
+ 282 01bc 0100A0E3 		mov	r0, #1	@,
+ 283 01c0 FEFFFFEB 		bl	__printf_chk	@
+ 284 01c4 DFFFFFEA 		b	.L49	@
+ 285              	.L34:
+ 286 01c8 10309DE5 		ldr	r3, [sp, #16]	@, %sfp
+ 287 01cc 1C208DE2 		add	r2, sp, #28	@,,
+ 288 01d0 049485E5 		str	r9, [r5, #1028]	@ D.5340, findme
+ 289 01d4 036092E7 		ldr	r6, [r2, r3]	@ D.5341, MEM[symbol: search_strings, index: ivtmp.123_42, offset: 0B]
+ 290 01d8 D4FFFFEA 		b	.L37	@
+ARM GAS  pbmsrch_small.s 			page 6
+
+
+ 291              	.L61:
+ 292              		.align	2
+ 293              	.L60:
+ 294 01dc 00000000 		.word	.LANCHOR1
+ 295 01e0 E8000000 		.word	.LANCHOR1+232
+ 296 01e4 00000000 		.word	.LANCHOR0
+ 297 01e8 00000000 		.word	.LC108
+ 298 01ec 14000000 		.word	.LC109
+ 299 01f0 00000000 		.word	stdout
+ 300 01f4 1C000000 		.word	.LC110
+ 301 01f8 20000000 		.word	.LC111
+ 303              		.section	.rodata
+ 304              		.align	2
+ 305              	.LANCHOR1 = . + 0
+ 306              	.LC106:
+ 307 0000 28000000 		.word	.LC0
+ 308 0004 2C000000 		.word	.LC1
+ 309 0008 30000000 		.word	.LC2
+ 310 000c 34000000 		.word	.LC3
+ 311 0010 38000000 		.word	.LC4
+ 312 0014 3C000000 		.word	.LC5
+ 313 0018 40000000 		.word	.LC6
+ 314 001c 44000000 		.word	.LC7
+ 315 0020 48000000 		.word	.LC8
+ 316 0024 4C000000 		.word	.LC9
+ 317 0028 4C000000 		.word	.LC9
+ 318 002c 50000000 		.word	.LC10
+ 319 0030 50000000 		.word	.LC10
+ 320 0034 54000000 		.word	.LC11
+ 321 0038 5C000000 		.word	.LC12
+ 322 003c 60000000 		.word	.LC13
+ 323 0040 64000000 		.word	.LC14
+ 324 0044 6C000000 		.word	.LC15
+ 325 0048 74000000 		.word	.LC16
+ 326 004c 7C000000 		.word	.LC17
+ 327 0050 84000000 		.word	.LC18
+ 328 0054 88000000 		.word	.LC19
+ 329 0058 90000000 		.word	.LC20
+ 330 005c 98000000 		.word	.LC21
+ 331 0060 A0000000 		.word	.LC22
+ 332 0064 A8000000 		.word	.LC23
+ 333 0068 B0000000 		.word	.LC24
+ 334 006c B8000000 		.word	.LC25
+ 335 0070 C0000000 		.word	.LC26
+ 336 0074 C8000000 		.word	.LC27
+ 337 0078 D0000000 		.word	.LC28
+ 338 007c C0000000 		.word	.LC26
+ 339 0080 D8000000 		.word	.LC29
+ 340 0084 E4000000 		.word	.LC30
+ 341 0088 EC000000 		.word	.LC31
+ 342 008c F4000000 		.word	.LC32
+ 343 0090 FC000000 		.word	.LC33
+ 344 0094 04010000 		.word	.LC34
+ 345 0098 0C010000 		.word	.LC35
+ 346 009c 84000000 		.word	.LC18
+ 347 00a0 10010000 		.word	.LC36
+ 348 00a4 18010000 		.word	.LC37
+ARM GAS  pbmsrch_small.s 			page 7
+
+
+ 349 00a8 20010000 		.word	.LC38
+ 350 00ac 28010000 		.word	.LC39
+ 351 00b0 30010000 		.word	.LC40
+ 352 00b4 38010000 		.word	.LC41
+ 353 00b8 44010000 		.word	.LC42
+ 354 00bc 4C010000 		.word	.LC43
+ 355 00c0 54010000 		.word	.LC44
+ 356 00c4 64010000 		.word	.LC45
+ 357 00c8 68010000 		.word	.LC46
+ 358 00cc 70010000 		.word	.LC47
+ 359 00d0 78010000 		.word	.LC48
+ 360 00d4 80010000 		.word	.LC49
+ 361 00d8 88010000 		.word	.LC50
+ 362 00dc 94010000 		.word	.LC51
+ 363 00e0 A0010000 		.word	.LC52
+ 364 00e4 00000000 		.word	0
+ 365              	.LC107:
+ 366 00e8 B0010000 		.word	.LC54
+ 367 00ec B8010000 		.word	.LC55
+ 368 00f0 C0010000 		.word	.LC56
+ 369 00f4 D0010000 		.word	.LC57
+ 370 00f8 E0010000 		.word	.LC58
+ 371 00fc E8010000 		.word	.LC59
+ 372 0100 E8010000 		.word	.LC59
+ 373 0104 E8010000 		.word	.LC59
+ 374 0108 E8010000 		.word	.LC59
+ 375 010c E8010000 		.word	.LC59
+ 376 0110 4C000000 		.word	.LC9
+ 377 0114 50000000 		.word	.LC10
+ 378 0118 F0010000 		.word	.LC60
+ 379 011c F4010000 		.word	.LC61
+ 380 0120 1C020000 		.word	.LC62
+ 381 0124 34020000 		.word	.LC63
+ 382 0128 5C020000 		.word	.LC64
+ 383 012c 7C020000 		.word	.LC65
+ 384 0130 A0020000 		.word	.LC66
+ 385 0134 BC020000 		.word	.LC67
+ 386 0138 E0020000 		.word	.LC68
+ 387 013c FC020000 		.word	.LC69
+ 388 0140 20030000 		.word	.LC70
+ 389 0144 44030000 		.word	.LC71
+ 390 0148 70030000 		.word	.LC72
+ 391 014c 88030000 		.word	.LC73
+ 392 0150 AC030000 		.word	.LC74
+ 393 0154 D0030000 		.word	.LC75
+ 394 0158 F8030000 		.word	.LC76
+ 395 015c 18040000 		.word	.LC77
+ 396 0160 40040000 		.word	.LC78
+ 397 0164 60040000 		.word	.LC79
+ 398 0168 84040000 		.word	.LC80
+ 399 016c A8040000 		.word	.LC81
+ 400 0170 CC040000 		.word	.LC82
+ 401 0174 EC040000 		.word	.LC83
+ 402 0178 10050000 		.word	.LC84
+ 403 017c 34050000 		.word	.LC85
+ 404 0180 58050000 		.word	.LC86
+ 405 0184 78050000 		.word	.LC87
+ARM GAS  pbmsrch_small.s 			page 8
+
+
+ 406 0188 94050000 		.word	.LC88
+ 407 018c C0050000 		.word	.LC89
+ 408 0190 E4050000 		.word	.LC90
+ 409 0194 10060000 		.word	.LC91
+ 410 0198 34060000 		.word	.LC92
+ 411 019c 5C060000 		.word	.LC93
+ 412 01a0 84060000 		.word	.LC94
+ 413 01a4 B0060000 		.word	.LC95
+ 414 01a8 D8060000 		.word	.LC96
+ 415 01ac 04070000 		.word	.LC97
+ 416 01b0 24070000 		.word	.LC98
+ 417 01b4 50070000 		.word	.LC99
+ 418 01b8 78070000 		.word	.LC100
+ 419 01bc A4070000 		.word	.LC101
+ 420 01c0 C8070000 		.word	.LC102
+ 421 01c4 F4070000 		.word	.LC103
+ 422 01c8 18080000 		.word	.LC104
+ 423              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 424              		.align	2
+ 425              	.LC108:
+ 426 0000 22257322 		.ascii	"\"%s\" is%s in \"%s\"\000"
+ 426      20697325 
+ 426      7320696E 
+ 426      20222573 
+ 426      2200
+ 427 0012 0000     		.space	2
+ 428              	.LC109:
+ 429 0014 206E6F74 		.ascii	" not\000"
+ 429      00
+ 430 0019 000000   		.space	3
+ 431              	.LC110:
+ 432 001c 00       		.ascii	"\000"
+ 433 001d 000000   		.space	3
+ 434              	.LC111:
+ 435 0020 205B2225 		.ascii	" [\"%s\"]\000"
+ 435      73225D00 
+ 436              	.LC0:
+ 437 0028 61626200 		.ascii	"abb\000"
+ 438              	.LC1:
+ 439 002c 796F7500 		.ascii	"you\000"
+ 440              	.LC2:
+ 441 0030 6E6F7400 		.ascii	"not\000"
+ 442              	.LC3:
+ 443 0034 697400   		.ascii	"it\000"
+ 444 0037 00       		.space	1
+ 445              	.LC4:
+ 446 0038 64616400 		.ascii	"dad\000"
+ 447              	.LC5:
+ 448 003c 796F6F00 		.ascii	"yoo\000"
+ 449              	.LC6:
+ 450 0040 686F6F00 		.ascii	"hoo\000"
+ 451              	.LC7:
+ 452 0044 6F6F00   		.ascii	"oo\000"
+ 453 0047 00       		.space	1
+ 454              	.LC8:
+ 455 0048 6F6800   		.ascii	"oh\000"
+ 456 004b 00       		.space	1
+ARM GAS  pbmsrch_small.s 			page 9
+
+
+ 457              	.LC9:
+ 458 004c 787800   		.ascii	"xx\000"
+ 459 004f 00       		.space	1
+ 460              	.LC10:
+ 461 0050 7800     		.ascii	"x\000"
+ 462 0052 0000     		.space	2
+ 463              	.LC11:
+ 464 0054 6669656C 		.ascii	"field\000"
+ 464      6400
+ 465 005a 0000     		.space	2
+ 466              	.LC12:
+ 467 005c 6E657700 		.ascii	"new\000"
+ 468              	.LC13:
+ 469 0060 726F7700 		.ascii	"row\000"
+ 470              	.LC14:
+ 471 0064 72656769 		.ascii	"regime\000"
+ 471      6D6500
+ 472 006b 00       		.space	1
+ 473              	.LC15:
+ 474 006c 626F6F6D 		.ascii	"boom\000"
+ 474      00
+ 475 0071 000000   		.space	3
+ 476              	.LC16:
+ 477 0074 74686174 		.ascii	"that\000"
+ 477      00
+ 478 0079 000000   		.space	3
+ 479              	.LC17:
+ 480 007c 696D7061 		.ascii	"impact\000"
+ 480      637400
+ 481 0083 00       		.space	1
+ 482              	.LC18:
+ 483 0084 616E6400 		.ascii	"and\000"
+ 484              	.LC19:
+ 485 0088 7A6F6F6D 		.ascii	"zoom\000"
+ 485      00
+ 486 008d 000000   		.space	3
+ 487              	.LC20:
+ 488 0090 74657874 		.ascii	"texture\000"
+ 488      75726500 
+ 489              	.LC21:
+ 490 0098 6D61676E 		.ascii	"magnet\000"
+ 490      657400
+ 491 009f 00       		.space	1
+ 492              	.LC22:
+ 493 00a0 646F6F6D 		.ascii	"doom\000"
+ 493      00
+ 494 00a5 000000   		.space	3
+ 495              	.LC23:
+ 496 00a8 6C6F6F6D 		.ascii	"loom\000"
+ 496      00
+ 497 00ad 000000   		.space	3
+ 498              	.LC24:
+ 499 00b0 66726571 		.ascii	"freq\000"
+ 499      00
+ 500 00b5 000000   		.space	3
+ 501              	.LC25:
+ 502 00b8 63757272 		.ascii	"current\000"
+ARM GAS  pbmsrch_small.s 			page 10
+
+
+ 502      656E7400 
+ 503              	.LC26:
+ 504 00c0 70686173 		.ascii	"phase\000"
+ 504      6500
+ 505 00c6 0000     		.space	2
+ 506              	.LC27:
+ 507 00c8 696D6167 		.ascii	"images\000"
+ 507      657300
+ 508 00cf 00       		.space	1
+ 509              	.LC28:
+ 510 00d0 61707065 		.ascii	"appears\000"
+ 510      61727300 
+ 511              	.LC29:
+ 512 00d8 636F6E64 		.ascii	"conductor\000"
+ 512      7563746F 
+ 512      7200
+ 513 00e2 0000     		.space	2
+ 514              	.LC30:
+ 515 00e4 77617665 		.ascii	"wavez\000"
+ 515      7A00
+ 516 00ea 0000     		.space	2
+ 517              	.LC31:
+ 518 00ec 6E6F726D 		.ascii	"normal\000"
+ 518      616C00
+ 519 00f3 00       		.space	1
+ 520              	.LC32:
+ 521 00f4 66726565 		.ascii	"free\000"
+ 521      00
+ 522 00f9 000000   		.space	3
+ 523              	.LC33:
+ 524 00fc 7465726D 		.ascii	"termed\000"
+ 524      656400
+ 525 0103 00       		.space	1
+ 526              	.LC34:
+ 527 0104 70726F76 		.ascii	"provide\000"
+ 527      69646500 
+ 528              	.LC35:
+ 529 010c 666F7200 		.ascii	"for\000"
+ 530              	.LC36:
+ 531 0110 73747275 		.ascii	"struct\000"
+ 531      637400
+ 532 0117 00       		.space	1
+ 533              	.LC37:
+ 534 0118 61626F75 		.ascii	"about\000"
+ 534      7400
+ 535 011e 0000     		.space	2
+ 536              	.LC38:
+ 537 0120 68617665 		.ascii	"have\000"
+ 537      00
+ 538 0125 000000   		.space	3
+ 539              	.LC39:
+ 540 0128 70726F70 		.ascii	"proper\000"
+ 540      657200
+ 541 012f 00       		.space	1
+ 542              	.LC40:
+ 543 0130 696E766F 		.ascii	"involve\000"
+ 543      6C766500 
+ARM GAS  pbmsrch_small.s 			page 11
+
+
+ 544              	.LC41:
+ 545 0138 64657363 		.ascii	"describedly\000"
+ 545      72696265 
+ 545      646C7900 
+ 546              	.LC42:
+ 547 0144 74686174 		.ascii	"thats\000"
+ 547      7300
+ 548 014a 0000     		.space	2
+ 549              	.LC43:
+ 550 014c 73706163 		.ascii	"spaces\000"
+ 550      657300
+ 551 0153 00       		.space	1
+ 552              	.LC44:
+ 553 0154 63697263 		.ascii	"circumstance\000"
+ 553      756D7374 
+ 553      616E6365 
+ 553      00
+ 554 0161 000000   		.space	3
+ 555              	.LC45:
+ 556 0164 74686500 		.ascii	"the\000"
+ 557              	.LC46:
+ 558 0168 6D656D62 		.ascii	"member\000"
+ 558      657200
+ 559 016f 00       		.space	1
+ 560              	.LC47:
+ 561 0170 73756368 		.ascii	"such\000"
+ 561      00
+ 562 0175 000000   		.space	3
+ 563              	.LC48:
+ 564 0178 67756964 		.ascii	"guide\000"
+ 564      6500
+ 565 017e 0000     		.space	2
+ 566              	.LC49:
+ 567 0180 72656761 		.ascii	"regard\000"
+ 567      726400
+ 568 0187 00       		.space	1
+ 569              	.LC50:
+ 570 0188 6F666669 		.ascii	"officers\000"
+ 570      63657273 
+ 570      00
+ 571 0191 000000   		.space	3
+ 572              	.LC51:
+ 573 0194 696D706C 		.ascii	"implement\000"
+ 573      656D656E 
+ 573      7400
+ 574 019e 0000     		.space	2
+ 575              	.LC52:
+ 576 01a0 7072696E 		.ascii	"principalities\000"
+ 576      63697061 
+ 576      6C697469 
+ 576      657300
+ 577 01af 00       		.space	1
+ 578              	.LC54:
+ 579 01b0 63616262 		.ascii	"cabbie\000"
+ 579      696500
+ 580 01b7 00       		.space	1
+ 581              	.LC55:
+ARM GAS  pbmsrch_small.s 			page 12
+
+
+ 582 01b8 796F7572 		.ascii	"your\000"
+ 582      00
+ 583 01bd 000000   		.space	3
+ 584              	.LC56:
+ 585 01c0 49742069 		.ascii	"It isn't here\000"
+ 585      736E2774 
+ 585      20686572 
+ 585      6500
+ 586 01ce 0000     		.space	2
+ 587              	.LC57:
+ 588 01d0 42757420 		.ascii	"But it is here\000"
+ 588      69742069 
+ 588      73206865 
+ 588      726500
+ 589 01df 00       		.space	1
+ 590              	.LC58:
+ 591 01e0 686F6461 		.ascii	"hodad\000"
+ 591      6400
+ 592 01e6 0000     		.space	2
+ 593              	.LC59:
+ 594 01e8 796F6F68 		.ascii	"yoohoo\000"
+ 594      6F6F00
+ 595 01ef 00       		.space	1
+ 596              	.LC60:
+ 597 01f0 2E00     		.ascii	".\000"
+ 598 01f2 0000     		.space	2
+ 599              	.LC61:
+ 600 01f4 496E2072 		.ascii	"In recent years, the field of photonic \000"
+ 600      6563656E 
+ 600      74207965 
+ 600      6172732C 
+ 600      20746865 
+ 601              	.LC62:
+ 602 021c 63727973 		.ascii	"crystals has found new\000"
+ 602      74616C73 
+ 602      20686173 
+ 602      20666F75 
+ 602      6E64206E 
+ 603 0233 00       		.space	1
+ 604              	.LC63:
+ 605 0234 6170706C 		.ascii	"applications in the RF and microwave\000"
+ 605      69636174 
+ 605      696F6E73 
+ 605      20696E20 
+ 605      74686520 
+ 606 0259 000000   		.space	3
+ 607              	.LC64:
+ 608 025c 72656769 		.ascii	"regime. A new type of metallic\000"
+ 608      6D652E20 
+ 608      41206E65 
+ 608      77207479 
+ 608      7065206F 
+ 609 027b 00       		.space	1
+ 610              	.LC65:
+ 611 027c 656C6563 		.ascii	"electromagnetic crystal has been\000"
+ 611      74726F6D 
+ 611      61676E65 
+ARM GAS  pbmsrch_small.s 			page 13
+
+
+ 611      74696320 
+ 611      63727973 
+ 612 029d 000000   		.space	3
+ 613              	.LC66:
+ 614 02a0 64657665 		.ascii	"developed that is having a\000"
+ 614      6C6F7065 
+ 614      64207468 
+ 614      61742069 
+ 614      73206861 
+ 615 02bb 00       		.space	1
+ 616              	.LC67:
+ 617 02bc 7369676E 		.ascii	"significant impact on the field of\000"
+ 617      69666963 
+ 617      616E7420 
+ 617      696D7061 
+ 617      6374206F 
+ 618 02df 00       		.space	1
+ 619              	.LC68:
+ 620 02e0 616E7465 		.ascii	"antennas. It consists of a\000"
+ 620      6E6E6173 
+ 620      2E204974 
+ 620      20636F6E 
+ 620      73697374 
+ 621 02fb 00       		.space	1
+ 622              	.LC69:
+ 623 02fc 636F6E64 		.ascii	"conductive surface, covered with a\000"
+ 623      75637469 
+ 623      76652073 
+ 623      75726661 
+ 623      63652C20 
+ 624 031f 00       		.space	1
+ 625              	.LC70:
+ 626 0320 73706563 		.ascii	"special texture which alters its\000"
+ 626      69616C20 
+ 626      74657874 
+ 626      75726520 
+ 626      77686963 
+ 627 0341 000000   		.space	3
+ 628              	.LC71:
+ 629 0344 656C6563 		.ascii	"electromagnetic properties. Made of solid\000"
+ 629      74726F6D 
+ 629      61676E65 
+ 629      74696320 
+ 629      70726F70 
+ 630 036e 0000     		.space	2
+ 631              	.LC72:
+ 632 0370 6D657461 		.ascii	"metal, the structure\000"
+ 632      6C2C2074 
+ 632      68652073 
+ 632      74727563 
+ 632      74757265 
+ 633 0385 000000   		.space	3
+ 634              	.LC73:
+ 635 0388 636F6E64 		.ascii	"conducts DC currents, but over a\000"
+ 635      75637473 
+ 635      20444320 
+ 635      63757272 
+ARM GAS  pbmsrch_small.s 			page 14
+
+
+ 635      656E7473 
+ 636 03a9 000000   		.space	3
+ 637              	.LC74:
+ 638 03ac 70617274 		.ascii	"particular frequency range it does\000"
+ 638      6963756C 
+ 638      61722066 
+ 638      72657175 
+ 638      656E6379 
+ 639 03cf 00       		.space	1
+ 640              	.LC75:
+ 641 03d0 6E6F7420 		.ascii	"not conduct AC currents. It does not\000"
+ 641      636F6E64 
+ 641      75637420 
+ 641      41432063 
+ 641      75727265 
+ 642 03f5 000000   		.space	3
+ 643              	.LC76:
+ 644 03f8 72657665 		.ascii	"reverse the phase of reflected\000"
+ 644      72736520 
+ 644      74686520 
+ 644      70686173 
+ 644      65206F66 
+ 645 0417 00       		.space	1
+ 646              	.LC77:
+ 647 0418 77617665 		.ascii	"waves, and the effective image currents\000"
+ 647      732C2061 
+ 647      6E642074 
+ 647      68652065 
+ 647      66666563 
+ 648              	.LC78:
+ 649 0440 61707065 		.ascii	"appear in-phase, rather than\000"
+ 649      61722069 
+ 649      6E2D7068 
+ 649      6173652C 
+ 649      20726174 
+ 650 045d 000000   		.space	3
+ 651              	.LC79:
+ 652 0460 6F75742D 		.ascii	"out-of-phase as they are on normal\000"
+ 652      6F662D70 
+ 652      68617365 
+ 652      20617320 
+ 652      74686579 
+ 653 0483 00       		.space	1
+ 654              	.LC80:
+ 655 0484 636F6E64 		.ascii	"conductors. Furthermore, surface\000"
+ 655      7563746F 
+ 655      72732E20 
+ 655      46757274 
+ 655      6865726D 
+ 656 04a5 000000   		.space	3
+ 657              	.LC81:
+ 658 04a8 77617665 		.ascii	"waves do not propagate, and instead\000"
+ 658      7320646F 
+ 658      206E6F74 
+ 658      2070726F 
+ 658      70616761 
+ 659              	.LC82:
+ARM GAS  pbmsrch_small.s 			page 15
+
+
+ 660 04cc 72616469 		.ascii	"radiate efficiently into free\000"
+ 660      61746520 
+ 660      65666669 
+ 660      6369656E 
+ 660      746C7920 
+ 661 04ea 0000     		.space	2
+ 662              	.LC83:
+ 663 04ec 73706163 		.ascii	"space. This new material, termed a\000"
+ 663      652E2054 
+ 663      68697320 
+ 663      6E657720 
+ 663      6D617465 
+ 664 050f 00       		.space	1
+ 665              	.LC84:
+ 666 0510 68696768 		.ascii	"high-impedance surface, provides\000"
+ 666      2D696D70 
+ 666      6564616E 
+ 666      63652073 
+ 666      75726661 
+ 667 0531 000000   		.space	3
+ 668              	.LC85:
+ 669 0534 61207573 		.ascii	"a useful new ground plane for novel\000"
+ 669      6566756C 
+ 669      206E6577 
+ 669      2067726F 
+ 669      756E6420 
+ 670              	.LC86:
+ 671 0558 6C6F772D 		.ascii	"low-profile antennas and other\000"
+ 671      70726F66 
+ 671      696C6520 
+ 671      616E7465 
+ 671      6E6E6173 
+ 672 0577 00       		.space	1
+ 673              	.LC87:
+ 674 0578 656C6563 		.ascii	"electromagnetic structures.\000"
+ 674      74726F6D 
+ 674      61676E65 
+ 674      74696320 
+ 674      73747275 
+ 675              	.LC88:
+ 676 0594 54686520 		.ascii	"The recent protests about the Michigamua\000"
+ 676      72656365 
+ 676      6E742070 
+ 676      726F7465 
+ 676      73747320 
+ 677 05bd 000000   		.space	3
+ 678              	.LC89:
+ 679 05c0 73747564 		.ascii	"student organization have raised an\000"
+ 679      656E7420 
+ 679      6F726761 
+ 679      6E697A61 
+ 679      74696F6E 
+ 680              	.LC90:
+ 681 05e4 696D706F 		.ascii	"important question as to the proper nature\000"
+ 681      7274616E 
+ 681      74207175 
+ 681      65737469 
+ARM GAS  pbmsrch_small.s 			page 16
+
+
+ 681      6F6E2061 
+ 682 060f 00       		.space	1
+ 683              	.LC91:
+ 684 0610 616E6420 		.ascii	"and scope of University involvement\000"
+ 684      73636F70 
+ 684      65206F66 
+ 684      20556E69 
+ 684      76657273 
+ 685              	.LC92:
+ 686 0634 77697468 		.ascii	"with student organizations. Accordingly\000"
+ 686      20737475 
+ 686      64656E74 
+ 686      206F7267 
+ 686      616E697A 
+ 687              	.LC93:
+ 688 065c 74686520 		.ascii	"the panel described in my Statement of\000"
+ 688      70616E65 
+ 688      6C206465 
+ 688      73637269 
+ 688      62656420 
+ 689 0683 00       		.space	1
+ 690              	.LC94:
+ 691 0684 46656272 		.ascii	"February 25, 2000 that is considering the\000"
+ 691      75617279 
+ 691      2032352C 
+ 691      20323030 
+ 691      30207468 
+ 692 06ae 0000     		.space	2
+ 693              	.LC95:
+ 694 06b0 71756573 		.ascii	"question of privileged space also will\000"
+ 694      74696F6E 
+ 694      206F6620 
+ 694      70726976 
+ 694      696C6567 
+ 695 06d7 00       		.space	1
+ 696              	.LC96:
+ 697 06d8 636F6E73 		.ascii	"consider under what circumstances and in\000"
+ 697      69646572 
+ 697      20756E64 
+ 697      65722077 
+ 697      68617420 
+ 698 0701 000000   		.space	3
+ 699              	.LC97:
+ 700 0704 77686174 		.ascii	"what ways the University, its\000"
+ 700      20776179 
+ 700      73207468 
+ 700      6520556E 
+ 700      69766572 
+ 701 0722 0000     		.space	2
+ 702              	.LC98:
+ 703 0724 61646D69 		.ascii	"administrators and faculty members should\000"
+ 703      6E697374 
+ 703      7261746F 
+ 703      72732061 
+ 703      6E642066 
+ 704 074e 0000     		.space	2
+ 705              	.LC99:
+ARM GAS  pbmsrch_small.s 			page 17
+
+
+ 706 0750 62652061 		.ascii	"be associated with such organizations\000"
+ 706      73736F63 
+ 706      69617465 
+ 706      64207769 
+ 706      74682073 
+ 707 0776 0000     		.space	2
+ 708              	.LC100:
+ 709 0778 616E6420 		.ascii	"and it will recommend guiding principles\000"
+ 709      69742077 
+ 709      696C6C20 
+ 709      7265636F 
+ 709      6D6D656E 
+ 710 07a1 000000   		.space	3
+ 711              	.LC101:
+ 712 07a4 696E2074 		.ascii	"in this regard. The University's\000"
+ 712      68697320 
+ 712      72656761 
+ 712      72642E20 
+ 712      54686520 
+ 713 07c5 000000   		.space	3
+ 714              	.LC102:
+ 715 07c8 45786563 		.ascii	"Executive Officers and I will then decide\000"
+ 715      75746976 
+ 715      65204F66 
+ 715      66696365 
+ 715      72732061 
+ 716 07f2 0000     		.space	2
+ 717              	.LC103:
+ 718 07f4 77686574 		.ascii	"whether and how to implement such\000"
+ 718      68657220 
+ 718      616E6420 
+ 718      686F7720 
+ 718      746F2069 
+ 719 0816 0000     		.space	2
+ 720              	.LC104:
+ 721 0818 7072696E 		.ascii	"principles.\000"
+ 721      6369706C 
+ 721      65732E00 
+ 722              		.bss
+ 723              		.align	2
+ 724              	.LANCHOR0 = . + 0
+ 727              	len:
+ 728 0000 00000000 		.space	4
+ 731              	table:
+ 732 0004 00000000 		.space	1024
+ 732      00000000 
+ 732      00000000 
+ 732      00000000 
+ 732      00000000 
+ 735              	findme:
+ 736 0404 00000000 		.space	4
+ 737              		.ident	"GCC: (Ubuntu/Linaro 4.7.3-12ubuntu1) 4.7.3"
+ 738              		.section	.note.GNU-stack,"",%progbits
+ARM GAS  pbmsrch_small.s 			page 18
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 pbmsrch_small.c
+     pbmsrch_small.s:58     .text:0000000000000000 $a
+     pbmsrch_small.s:61     .text:0000000000000000 init_search
+     pbmsrch_small.s:93     .text:000000000000005c $d
+     pbmsrch_small.s:95     .text:0000000000000060 $a
+     pbmsrch_small.s:98     .text:0000000000000060 strsearch
+     pbmsrch_small.s:150    .text:0000000000000100 $d
+     pbmsrch_small.s:153    .text.startup:0000000000000000 $a
+     pbmsrch_small.s:156    .text.startup:0000000000000000 main
+     pbmsrch_small.s:294    .text.startup:00000000000001dc $d
+     pbmsrch_small.s:304    .rodata:0000000000000000 $d
+     pbmsrch_small.s:424    .rodata.str1.4:0000000000000000 $d
+     pbmsrch_small.s:723    .bss:0000000000000000 $d
+     pbmsrch_small.s:727    .bss:0000000000000000 len
+     pbmsrch_small.s:731    .bss:0000000000000004 table
+     pbmsrch_small.s:735    .bss:0000000000000404 findme
+
+UNDEFINED SYMBOLS
+strlen
+strncmp
+memcpy
+__printf_chk
+_IO_putc
+stdout

@@ -50,11 +50,11 @@ GS_REVISION=$(GS_VERSION)
 # all copies.
 
 # makefile for Unix/gcc/X11 configuration.
-# Note: this makefile assumes you are using gcc in ANSI mode.
+# Note: this makefile assumes you are using arm-linux-gnueabi-gcc in ANSI mode.
 
 #****************************************************************#
 #   If you want to change options, DO NOT edit unix-gcc.mak      #
-#   or makefile.  Edit gcc-head.mak and run the tar_cat script.  #
+#   or makefile.  Edit arm-linux-gnueabi-gcc-head.mak and run the tar_cat script.  #
 #****************************************************************#
 
 # ------------------------------- Options ------------------------------- #
@@ -174,7 +174,7 @@ CONFIG=
 # Define the name of the C compiler.
 
 #CC=gcc -mv8 -static
-CC=gcc -static
+CC=arm-linux-gnueabi-gcc -static
 #CC=gcc
 
 # Define the name of the linker for the final link step.
@@ -182,8 +182,8 @@ CC=gcc -static
 
 CCLD=$(CC)
 
-# Define the default gcc flags.
-# To work around the gcc 2.7.x optimizer bug,
+# Define the default arm-linux-gnueabi-gcc flags.
+# To work around the arm-linux-gnueabi-gcc 2.7.x optimizer bug,
 # add -Dconst= and remove -Wcast-qual and -Wwrite-strings.
 
 #GCFLAGS=-Wall -Wcast-qual -Wpointer-arith -Wstrict-prototypes -Wwrite-strings
@@ -199,7 +199,7 @@ GCFLAGS=-Dconst= -Wall -Wpointer-arith -Wstrict-prototypes
 # XCFLAGS can be set from the command line.
 # We don't include -ansi, because this gets in the way of the platform-
 #   specific stuff that <math.h> typically needs; nevertheless, we expect
-#   gcc to accept ANSI-style function prototypes and function definitions.
+#   arm-linux-gnueabi-gcc to accept ANSI-style function prototypes and function definitions.
 #XCFLAGS=
 
 CFLAGS=-O1 $(GCFLAGS) $(XCFLAGS)
@@ -865,7 +865,7 @@ gsbitops.$(OBJ): gsbitops.c $(AK) $(memory__h) $(stdio__h)\
 
 gsbittab.$(OBJ): gsbittab.c $(AK) $(stdpre_h) $(gsbittab_h)
 
-# gsfemu is only used in FPU-less configurations, and currently only with gcc.
+# gsfemu is only used in FPU-less configurations, and currently only with arm-linux-gnueabi-gcc.
 # We thought using CCLEAF would produce smaller code, but it actually
 # produces larger code!
 gsfemu.$(OBJ): gsfemu.c $(AK) $(std_h)
@@ -5459,7 +5459,7 @@ $(ANSI2KNR_XE): ansi2knr.c
 $(ECHOGS_XE): echogs.c $(AK)
 	$(CCAUX) $(O)$(ECHOGS_XE) echogs.c
 
-# On the RS/6000 (at least), compiling genarch.c with gcc with -O
+# On the RS/6000 (at least), compiling genarch.c with arm-linux-gnueabi-gcc with -O
 # produces a buggy executable.
 $(GENARCH_XE): genarch.c $(AK) $(stdpre_h)
 	$(CCAUX) $(O)$(GENARCH_XE) genarch.c
@@ -5591,7 +5591,7 @@ unix-cc.mak: $(UNIX_CC_MAK)
 	rm -f unix-cc.mak
 	$(CAT) $(UNIX_CC_MAK) >unix-cc.mak
 
-UNIX_GCC_MAK=$(VERSION_MAK) gcc-head.mak unixhead.mak $(GENERIC_MAK_LIST) unixtail.mak unix-end.mak
+UNIX_GCC_MAK=$(VERSION_MAK) arm-linux-gnueabi-gcc-head.mak unixhead.mak $(GENERIC_MAK_LIST) unixtail.mak unix-end.mak
 unix-gcc.mak: $(UNIX_GCC_MAK)
 	rm -f unix-gcc.mak
 	$(CAT) $(UNIX_GCC_MAK) >unix-gcc.mak
